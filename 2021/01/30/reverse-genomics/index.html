@@ -1,0 +1,374 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>利用反向基因组学技术定向分离未培养细菌 | Haizhen's Blog</title><meta name="description" content="文章信息 题目：Targeted isolation and cultivation of uncultivated bacteria by reverse genomics 年份：2019 单位：橡树岭国家实验室，田纳西大学 DOI：10.1038&#x2F;s41587-019-0260-6 杂志：Nature Biotechnology (IF 36.558) 分类：Research article"><meta name="keywords" content="cultivation"><meta name="author" content="Zhu Haizhen,zhuhaizhen1024@163.com"><meta name="copyright" content="Zhu Haizhen"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/image/favicon.png"><link rel="canonical" href="https://zhuhaizhen.github.io/2021/01/30/reverse-genomics/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="利用反向基因组学技术定向分离未培养细菌"><meta property="og:url" content="https://zhuhaizhen.github.io/2021/01/30/reverse-genomics/"><meta property="og:site_name" content="Haizhen's Blog"><meta property="og:description" content="文章信息 题目：Targeted isolation and cultivation of uncultivated bacteria by reverse genomics 年份：2019 单位：橡树岭国家实验室，田纳西大学 DOI：10.1038&#x2F;s41587-019-0260-6 杂志：Nature Biotechnology (IF 36.558) 分类：Research article"><meta property="og:image" content="https://gitee.com/serene_site/image/tree/master/img/starry-sky-5343630_1920.jpg"><meta property="article:published_time" content="2021-01-30T07:33:29.000Z"><meta property="article:modified_time" content="2022-03-31T12:49:00.947Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="prev" title="中国20个森林土壤中的大气甲烷氧化菌主要是USCα" href="https://zhuhaizhen.github.io/2021/01/30/pmoA-primers/"><link rel="next" title="针对未培养微生物的新型培养方法" href="https://zhuhaizhen.github.io/2021/01/22/culture-strategy/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6b1c40d9cb0aeba42b229c550f73967b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"ULAMU2VKLC","apiKey":"074084189662d00e3b579aef488f16a5","indexName":"hexo-blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/image/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">23</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">32</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文章信息"><span class="toc-number">1.</span> <span class="toc-text">文章信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#评论"><span class="toc-number">2.</span> <span class="toc-text">评论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-number">3.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#样品采集与处理"><span class="toc-number">3.1.</span> <span class="toc-text">样品采集与处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TM7a基因组挖掘，抗原表位筛选及抗体生产"><span class="toc-number">3.2.</span> <span class="toc-text">TM7a基因组挖掘，抗原表位筛选及抗体生产</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#抗-SR1抗体靶点的筛选"><span class="toc-number">3.3.</span> <span class="toc-text">抗-SR1抗体靶点的筛选</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#口腔微生物样品免疫荧光标记及流式分选"><span class="toc-number">3.4.</span> <span class="toc-text">口腔微生物样品免疫荧光标记及流式分选</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#口腔TM7的分离培养"><span class="toc-number">3.5.</span> <span class="toc-text">口腔TM7的分离培养</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结果"><span class="toc-number">4.</span> <span class="toc-text">结果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于抗体的口腔TM7细胞分选"><span class="toc-number">4.1.</span> <span class="toc-text">基于抗体的口腔TM7细胞分选</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于抗体的TM7培养"><span class="toc-number">4.2.</span> <span class="toc-text">基于抗体的TM7培养</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向基因组学方法分离其它未培养的微生物"><span class="toc-number">4.3.</span> <span class="toc-text">反向基因组学方法分离其它未培养的微生物</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反向基因组学助力单细胞基因组测序"><span class="toc-number">4.4.</span> <span class="toc-text">反向基因组学助力单细胞基因组测序</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#讨论"><span class="toc-number"></span> <span class="toc-text">讨论</span></a></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/serene_site/image/tree/master/img/starry-sky-5343630_1920.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Haizhen's Blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">利用反向基因组学技术定向分离未培养细菌</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2021-01-30 15:33:29"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2021-01-30</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2022-03-31 20:49:00"><i class="fas fa-history fa-fw"></i> 更新于 2022-03-31</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fas fa-inbox fa-fw post-meta__icon"></i><a class="post-meta__categories" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/">文献阅读</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta__icon"></i><span>字数总计:</span><span class="word-count">2.9k</span><span class="post-meta__separator">|</span><i class="far fa-clock fa-fw post-meta__icon"></i><span>阅读时长: 9 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="far fa-comments fa-fw post-meta__icon"></i><span>评论数:</span><a href="/2021/01/30/reverse-genomics/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2021/01/30/reverse-genomics/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="文章信息"><a href="#文章信息" class="headerlink" title="文章信息"></a>文章信息</h2><ul>
+<li><strong>题目</strong>：Targeted isolation and cultivation of uncultivated bacteria by reverse genomics</li>
+<li><strong>年份</strong>：2019</li>
+<li><strong>单位</strong>：橡树岭国家实验室，田纳西大学</li>
+<li><strong>DOI</strong>：10.1038/s41587-019-0260-6</li>
+<li><strong>杂志</strong>：Nature Biotechnology (IF 36.558)</li>
+<li><strong>分类</strong>：Research article</li>
+</ul>
+<h2 id="评论"><a href="#评论" class="headerlink" title="评论"></a>评论</h2><ul>
+<li>目的微生物表面抗原的筛选是成功分离的关键，本文提供了三种不同情况的成功案例：<ol>
+<li>对于研究广泛，有同源3D结构的PBP2，结合同源蛋白结构筛选抗原表位</li>
+<li>对于没有同源3D结构的CpsC，根据结构预测筛选抗原表位</li>
+<li>针对SR1类群，使用全长的膜外氨基酸作为抗原生产多克隆抗体</li>
+</ol>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210130154336.png" alt=""></p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="样品采集与处理"><a href="#样品采集与处理" class="headerlink" title="样品采集与处理"></a>样品采集与处理</h3><ul>
+<li><p>采集健康人的唾液及牙周炎患者的龈沟液</p>
+</li>
+<li><p>口腔微生物样品按照1: 5的比例用<code>dental transport medium</code>稀释，涡旋混匀1 min，1,000 g离心2 min去除大颗粒。上清过10 μm细胞筛，12,000 g离心15 min，用1 ml PBS重悬</p>
+</li>
+<li><p>处理后的样品立即用于活细胞分选</p>
+</li>
+</ul>
+<h3 id="TM7a基因组挖掘，抗原表位筛选及抗体生产"><a href="#TM7a基因组挖掘，抗原表位筛选及抗体生产" class="headerlink" title="TM7a基因组挖掘，抗原表位筛选及抗体生产"></a>TM7a基因组挖掘，抗原表位筛选及抗体生产</h3><ul>
+<li><p>使用当时仅有的两个口腔TM7基因组TM7a和TM7c</p>
+</li>
+<li><p>根据COG分类，首先属于<strong>转运、细胞被膜生成及胞外结构</strong>的蛋白</p>
+</li>
+<li><p>将这些蛋白用<code>TMHMM v.2.0</code>预测跨膜区</p>
+</li>
+<li><p>选择有跨膜结构域的蛋白，去除注释为<code>hypothetical</code>的及氨基酸数量少于100个的</p>
+<blockquote>
+<p>最终目的是找到相对较大且功能已知的蛋白</p>
+</blockquote>
+</li>
+<li><p>选出的117个蛋白与<code>Human Oral Microbiome Database</code>的蛋白质组进行BLASTP比对</p>
+<blockquote>
+<p>48个蛋白与其它物种来源的蛋白相似性大于90%，认为可能是污染</p>
+</blockquote>
+</li>
+<li><p>逐个分析剩下的蛋白的<strong>跨膜结构域、胞外结构域的数量及大小、同源蛋白是否已报道3D结构及作为抗原的其它实验数据</strong></p>
+<blockquote>
+<p>最佳选择是青霉素结合蛋白PBP2，有高分辨率的晶体结构，且已有文献报道抗-PBP2抗体能够结合在病原微生物的表面，人类口腔微生物中的同源蛋白与TM7a的PBP2相似性为30-40%。为检测没有3D结构及抗原数据的情况下该方法的有效性，也选择了一个CpsC蛋白，属于<code>polysaccharide copolymerases
+superfamily</code>，人类口腔微生物中的同源蛋白与TM7a的CpsC相似性不超过30%</p>
+</blockquote>
+</li>
+<li><p>使用在线服务器预测两个蛋白的抗原区域及多肽的疏水性</p>
+<blockquote>
+<p>ABCpred(<a href="https://webs.iiitd.edu.in/cgibin/abcpred" target="_blank" rel="noopener">https://webs.iiitd.edu.in/cgibin/abcpred</a>)<br>BepiPred(<a href="http://www.cbs.dtu.dk/services/BepiPred/cite.php" target="_blank" rel="noopener">http://www.cbs.dtu.dk/services/BepiPred/cite.php</a>)<br>IEBD Analysis Resource(<a href="http://tools.immuneepitope.org/bcell" target="_blank" rel="noopener">http://tools.immuneepitope.org/bcell</a>)</p>
+</blockquote>
+</li>
+<li><p>从PBP2上找到7个可以作为抗原的多肽，基于大肠杆菌PBP1b的3D结构，用PyMOL分析这些多肽的位置</p>
+<blockquote>
+<p>最终选择了三个暴露在外面的残基最多的多肽之一(SGNIKYAKQRQKTVLTRMV)</p>
+</blockquote>
+</li>
+<li><p>从CpsC上找到4个可以作为抗原的多肽，由于没有3D结构，选择了位于胞外结构域的螺旋区的一个肽段(ESAIQEFKEQSKSLYGNS)</p>
+</li>
+<li><p>商业合成两个最终选出来的抗原多肽，在CpsC的N端和PBP2的C端加一个半胱氨酸，免疫兔子，ELISA验证抗体有效性</p>
+</li>
+<li><p><code>HiTrap Protein A HP antibody purification columns</code>纯化IgG，<code>Alexa Fluor 488 Antibody Labeling Kit</code>对抗体进行荧光标记</p>
+</li>
+</ul>
+<h3 id="抗-SR1抗体靶点的筛选"><a href="#抗-SR1抗体靶点的筛选" class="headerlink" title="抗-SR1抗体靶点的筛选"></a>抗-SR1抗体靶点的筛选</h3><ul>
+<li><p>使用人类口腔微生物SR1 HOT345的基因组，筛选该类群的抗体靶点</p>
+</li>
+<li><p>选择了357个氨基酸的假想蛋白BSK20_04595，预测该蛋白有一个跨膜结构域和一个胞外结构域，胞外结构域包含LysM和CHAP结构域</p>
+</li>
+<li><p>选择氨基酸片段39-357作为抗原，密码子优化，过表达，蛋白纯化，兔免疫，IgG亲和纯化</p>
+</li>
+</ul>
+<h3 id="口腔微生物样品免疫荧光标记及流式分选"><a href="#口腔微生物样品免疫荧光标记及流式分选" class="headerlink" title="口腔微生物样品免疫荧光标记及流式分选"></a>口腔微生物样品免疫荧光标记及流式分选</h3><ul>
+<li><p>悬浮在PBS中的口腔微生物样品，用5%羊血清及IgG混合物(兔抗-<em>Ignicoccus</em> IgG，兔抗-<em>Clostridium</em> IgG，人IgG各1 μg/ml)封闭30 min，封闭一些口腔细菌上潜在的非特异性抗体结合位点</p>
+</li>
+<li><p>封闭后加入0.1-1 μg/ml荧光标记的抗体，室温孵育1 h，12,000 g离心15 min，用含1%血清的PBS重悬；或者直接用含1%血清的PBS稀释至2 ml</p>
+<blockquote>
+<p>加入到样品中之前，抗体溶液15,000 g离心5 min，小心吸取上清，降低荧光颗粒的背景</p>
+</blockquote>
+</li>
+<li><p>30 min后样品进行流式分选</p>
+</li>
+<li><p>负对照包括未标记的口腔样品(检测自发荧光)及不含微生物的空白处理(检测荧光抗体析出)</p>
+</li>
+<li><p>如果信号太弱，用二级标记抗体(如羊抗兔IgG)可以放大信号</p>
+</li>
+</ul>
+<h3 id="口腔TM7的分离培养"><a href="#口腔TM7的分离培养" class="headerlink" title="口腔TM7的分离培养"></a>口腔TM7的分离培养</h3><ul>
+<li><p>选用BHI，OTEB，MTGE及TSB培养基，补加<strong>多种生长因子</strong></p>
+<blockquote>
+<p>ATCC 维生素，微量元素，澄清过滤的唾液，猪胃粘膜素，糖，氨基酸和核苷酸，N-乙酰胞壁酸，N-乙酰葡糖胺，丙酮酸</p>
+</blockquote>
+</li>
+<li><p>96孔板加200 μl培养基，分选后37 ℃培养</p>
+</li>
+<li><p>培养48-72 h后，用排枪吸取100 μl，过0.2 μm的96孔过滤板。用200 μl PBS冲洗，往滤膜上加20 μl TE，室温100 rpm震荡5 min。吸取10 μl细胞悬液到96孔PCR板中，加10 μl裂解液，95 ℃加热5 min。冰上冷却，加10 μl中和缓冲液。</p>
+<blockquote>
+<p>裂解液：0.13 M KOH，3.3 mM EDTA (pH 8.0)<br>中和缓冲液：0.13 M HCl，0.42 M Tris (pH 7.0)，0.18 M Tris (pH 8.0)</p>
+</blockquote>
+</li>
+<li><p>使用通用引物及TM7特异引物扩增。有条带的培养物进行测序，并转接到新鲜的培养基中</p>
+<blockquote>
+<p>所有检测到TM7的培养物都混杂着很多其它菌</p>
+</blockquote>
+</li>
+<li><p>固体培养基选择DMM平板补加2%葡萄糖，0.1 g/l酸水解酪蛋白和10%羊血；BHI平板补加10%羊血</p>
+</li>
+<li><p>分选获得的单细胞在每个平板上按10 × 10排列，37 ℃培养</p>
+</li>
+<li><p>培养3-5天后形成的菌落扩增测序</p>
+</li>
+<li><p>有杂菌的菌落重复划线，直至菌落仅包含TM7及一种宿主放线菌</p>
+</li>
+<li><p>TM7富集物及宿主共培养物可以在含10%二甲基亚砜的培养基中-80 ℃冻存</p>
+</li>
+</ul>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><h3 id="基于抗体的口腔TM7细胞分选"><a href="#基于抗体的口腔TM7细胞分选" class="headerlink" title="基于抗体的口腔TM7细胞分选"></a>基于抗体的口腔TM7细胞分选</h3><ul>
+<li>通过流式分选，带有荧光标记的细胞占0.1-5%</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210129111809.png" alt=""></p>
+<blockquote>
+<p>左图是未标记的样品，RFU &gt; 10^3为自荧光沉淀/矿物质</p>
+</blockquote>
+<ul>
+<li><p>为检测TM7是否被IgG标记，收集10-100个荧光标记的细胞，进行<code>多重置换基因组扩增(multiple displacement genomic amplification, MDA)</code>，然后用特异性引物进行PCR扩增</p>
+<blockquote>
+<p>MDA是一种单细胞基因组扩增技术，能对全基因组进行高保真的均匀扩增，产生10-100kb的片段，从而放大单个细菌中的DNA至模板所需的微克水平</p>
+</blockquote>
+</li>
+<li><p>分选获得的细胞集合中25-100%包含TM7，比例取决于不同样品及分选门参数，抗-PBP2抗体和抗-CpsC抗体都能获得TM7细胞</p>
+</li>
+<li><p>为增强荧光信号，覆盖尽可能多样的序列，用于培养的实验后续都进行抗-PBP2和抗-CpsC双标记</p>
+</li>
+<li><p>用MiSeq分析细胞集合中的物种组成，TM7丰度可高达95%，主要是类群1,3,6</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210129143913.png" alt=""></p>
+<h3 id="基于抗体的TM7培养"><a href="#基于抗体的TM7培养" class="headerlink" title="基于抗体的TM7培养"></a>基于抗体的TM7培养</h3><ul>
+<li><p>固体培养基上获得包含5种不同TM7的菌落</p>
+</li>
+<li><p>所有TM7阳性的菌落都包含放线菌，80%也包含链球菌，根据文献报道认为放线菌可能是宿主，链球菌由于粘附性强，可能是共分离物</p>
+</li>
+<li><p>TM7 HOT346和HOT348是不同的物种，但是在同一个<em>Cellulosimicrobium cellulans</em>菌落中检测到</p>
+<blockquote>
+<p>多个TM7可能寄生在同一个寄主细胞上</p>
+</blockquote>
+</li>
+<li><p>对<em>Cellulosimicrobium</em>-TM7培养物进行第二轮标记和分选，获得纯的<em>C. cellulans</em>-TM7 HOT346共培养物</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210129191542.png" alt=""></p>
+<ul>
+<li><p>在同一个供体的唾液样本中，还获得了TM7 HOT346与<em>Actinomyces</em> sp. HOT171的共培养物，说明在自然环境中，TM7很可能寄生在不同属的细菌中</p>
+</li>
+<li><p>纯化后的TM7-放线菌共培养物可以在多种标准的富营养培养基中传代，冻存后可复苏</p>
+</li>
+<li><p>TM7 HOT351属于TM7类群的一个新科或新目，与<em>Actinomyces</em> sp. HOT897共同分离出来</p>
+</li>
+<li><p><em>A. odontolyticus</em> XH001是TM7 HOT352和HOT952的宿主</p>
+</li>
+<li><p>在液体培养基中还检测到TM7 HOT347和HOT870，但是不能在固体培养基上生长，也未能鉴定其宿主</p>
+</li>
+<li><p>TM7物种及其放线菌宿主之间没有进化距离上的明显相关性</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210129192230.png" alt=""></p>
+<ul>
+<li><p>不同TM7可能同时寄生在相同的宿主细胞，相同TM7物种也可以寄生在不同的宿主</p>
+</li>
+<li><p>分离的所有TM7物种都是直径 &lt; 0.5 μm的球菌，位于宿主细胞的表面</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210130154137.png" alt=""></p>
+<h3 id="反向基因组学方法分离其它未培养的微生物"><a href="#反向基因组学方法分离其它未培养的微生物" class="headerlink" title="反向基因组学方法分离其它未培养的微生物"></a>反向基因组学方法分离其它未培养的微生物</h3><ul>
+<li><p>使用单细胞基因组数据SR1 HOT345，选择了一个预测的暴露于表面的糖基转移酶，也被注释为参与细胞壁合成的表面抗原</p>
+</li>
+<li><p>选择整个暴露的~300个氨基酸的结构域用于抗体生产</p>
+</li>
+<li><p>获得2个SR1培养物，都包含SR1 HOT875，共培养的细菌分别是<em>Fusobacterium periodonticum</em> 和 <em>Parvimonas micra</em></p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210129193520.png" alt=""></p>
+<ul>
+<li>未能获得足量的菌体进行显微表征</li>
+</ul>
+<h3 id="反向基因组学助力单细胞基因组测序"><a href="#反向基因组学助力单细胞基因组测序" class="headerlink" title="反向基因组学助力单细胞基因组测序"></a>反向基因组学助力单细胞基因组测序</h3><ul>
+<li><p>通过对抗体标记的样品进行细胞分选及多重置换基因组扩增，从384组分选获得的细胞中得到二十多个TM7 SAGs (single-cell amplified genomes)，根据16S rRNA序列分为6个物种：HOT346, HOT348, HOT349, HOT351, HOT352, HOT353/952</p>
+</li>
+<li><p><strong>基因组分箱获得的MAGs通常缺少16S rRNA基因，难以与已知的物种进行系统发育分析，而SAGs不存在这个问题</strong></p>
+</li>
+<li><p>共测序，组装，分析了23个SAGs，代表人类口腔微生物TM7类群中的6个类群：类群1,2,3,5</p>
+</li>
+<li><p>将获得的TM7 SAGs与已报道的TM7基因组进行比较基因组学分析，证实了其~0.6-1 Mb的小基因组是基因丢失造成的，这也与其寄生的生活方式相关</p>
+</li>
+<li><p>并不清楚开放环境中的TM7是否依赖与其它微生物的物理接触</p>
+</li>
+<li><p>目前所有TM7基因组都缺少电子传递链，但可能存在没有呼吸功能的专性发酵代谢</p>
+</li>
+<li><p>开放环境中的TM7物种编码近乎完整的磷酸戊糖途径，偶联异型乳酸发酵，从而通过底物水平磷酸化产生NADPH和ATP。人类口腔TM7缺少磷酸戊糖途径中起始NADPH产生的关键酶及异型乳酸发酵的关键酶：磷酸木酮糖磷酸转酮酶。因此，口腔TM7可能利用己糖-戊糖的相互转化并主要通过糖酵解产生ATP</p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210130122702.png" alt=""></p>
+<h1 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h1><ul>
+<li><p>只要找到合适的表面抗体，就能从复杂群落中获取低丰度的目标微生物活细胞，有助于后续进行高通量的培养参数筛选</p>
+</li>
+<li><p><strong>TM7的分离选择了短的肽链作为抗原，但也可以用全长的蛋白作为抗原生产多克隆抗体，从而靶向膜蛋白的多个位点。这样能够增加结合的概率，但可能降低结合的特异性</strong></p>
+</li>
+<li><p>抗体标记筛选的细胞也可以用于其它微液滴、ichips等高通量培养方法进行后续处理</p>
+</li>
+<li><p>不可能所有微生物都能直接培养，但从靶向细胞获得的单细胞基因组数据对于推测理化性质、完善基因组信息及最终成功培养都至关重要</p>
+</li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:zhuhaizhen1024@163.com">Zhu Haizhen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://zhuhaizhen.github.io/2021/01/30/reverse-genomics/">https://zhuhaizhen.github.io/2021/01/30/reverse-genomics/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhuhaizhen.github.io" target="_blank">Haizhen's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/cultivation/">cultivation</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/serene_site/image/tree/master/img/sky-5347490_1920.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><button class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/image/wechat.jpg" alt="微信" onclick="window.open('/image/wechat.jpg')"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/image/alipay.jpg" alt="支付宝" onclick="window.open('/image/alipay.jpg')"/><div class="post-qr-code__desc">支付宝</div></li></ul></div></button></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/01/30/pmoA-primers/"><img class="prev-cover" data-src="https://gitee.com/serene_site/image/tree/master/img/mountains-1412683_1280.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">中国20个森林土壤中的大气甲烷氧化菌主要是USCα</div></div></a></div><div class="next-post pull-right"><a href="/2021/01/22/culture-strategy/"><img class="next-cover" data-src="https://gitee.com/serene_site/image/tree/master/img/fantasy-5316260_1920.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">针对未培养微生物的新型培养方法</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2021/01/22/culture-strategy/" title="针对未培养微生物的新型培养方法"><img class="relatedPosts_cover" data-src="https://gitee.com/serene_site/image/tree/master/img/fantasy-5316260_1920.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-22</div><div class="relatedPosts_title">针对未培养微生物的新型培养方法</div></div></a></div></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'昵称,邮箱,网址')
+var requiredFields = requestSetting(['nick','mail'],'昵称,邮箱')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'yDcQjFWTIoApJ6qYc7DCVIjO-gzGzoHsz',
+  appKey: 'y66ni3n3AtYNrLgaqdJGzAPo',
+  placeholder: '请留下你的昵称和邮箱，方便接收回复',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-CN',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: false,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Zhu Haizhen</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">君子不器</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fas fa-comments"></i></a><button class="close" id="mobile-toc-button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="/js/third-party/click_heart.js"></script><script src="/js/search/algolia.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

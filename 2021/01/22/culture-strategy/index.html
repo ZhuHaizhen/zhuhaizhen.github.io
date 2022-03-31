@@ -1,0 +1,359 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>针对未培养微生物的新型培养方法 | Haizhen's Blog</title><meta name="description" content="文章信息 题目：Innovations to culturing the uncultured microbial majority 年份：2020 单位：瓦赫宁根大学 DOI：10.1038&#x2F;s41579-020-00458-8 杂志：Nature Reviews Microbiology (IF 34.209) 分类：Review  传统分离培养策略 富集特定物种的技术：  设计选择性培养基("><meta name="keywords" content="cultivation"><meta name="author" content="Zhu Haizhen,zhuhaizhen1024@163.com"><meta name="copyright" content="Zhu Haizhen"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/image/favicon.png"><link rel="canonical" href="https://zhuhaizhen.github.io/2021/01/22/culture-strategy/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="针对未培养微生物的新型培养方法"><meta property="og:url" content="https://zhuhaizhen.github.io/2021/01/22/culture-strategy/"><meta property="og:site_name" content="Haizhen's Blog"><meta property="og:description" content="文章信息 题目：Innovations to culturing the uncultured microbial majority 年份：2020 单位：瓦赫宁根大学 DOI：10.1038&#x2F;s41579-020-00458-8 杂志：Nature Reviews Microbiology (IF 34.209) 分类：Review  传统分离培养策略 富集特定物种的技术：  设计选择性培养基("><meta property="og:image" content="https://gitee.com/serene_site/image/tree/master/img/fantasy-5316260_1920.jpg"><meta property="article:published_time" content="2021-01-22T02:53:29.000Z"><meta property="article:modified_time" content="2022-03-31T12:43:32.376Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="prev" title="利用反向基因组学技术定向分离未培养细菌" href="https://zhuhaizhen.github.io/2021/01/30/reverse-genomics/"><link rel="next" title="集成学习方法" href="https://zhuhaizhen.github.io/2021/01/14/ensemble/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6b1c40d9cb0aeba42b229c550f73967b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"ULAMU2VKLC","apiKey":"074084189662d00e3b579aef488f16a5","indexName":"hexo-blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/image/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">23</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">32</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文章信息"><span class="toc-number">1.</span> <span class="toc-text">文章信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#传统分离培养策略"><span class="toc-number">2.</span> <span class="toc-text">传统分离培养策略</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#近期的成功培养案例"><span class="toc-number">3.</span> <span class="toc-text">近期的成功培养案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#古菌"><span class="toc-number">3.1.</span> <span class="toc-text">古菌</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#细菌"><span class="toc-number">3.2.</span> <span class="toc-text">细菌</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#影响分离培养的因素"><span class="toc-number">4.</span> <span class="toc-text">影响分离培养的因素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新型培养技术"><span class="toc-number">5.</span> <span class="toc-text">新型培养技术</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于膜扩散的培养"><span class="toc-number">5.1.</span> <span class="toc-text">基于膜扩散的培养</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#微流控系统培养"><span class="toc-number">5.2.</span> <span class="toc-text">微流控系统培养</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过细胞分选或物种-功能筛选进行分离"><span class="toc-number">5.3.</span> <span class="toc-text">通过细胞分选或物种&#x2F;功能筛选进行分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#局限性"><span class="toc-number">5.4.</span> <span class="toc-text">局限性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#筛选方法"><span class="toc-number">6.</span> <span class="toc-text">筛选方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分离培养的目标"><span class="toc-number">7.</span> <span class="toc-text">分离培养的目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文献"><span class="toc-number">8.</span> <span class="toc-text">参考文献</span></a></li></ol></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/serene_site/image/tree/master/img/fantasy-5316260_1920.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Haizhen's Blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">针对未培养微生物的新型培养方法</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2021-01-22 10:53:29"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2021-01-22</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2022-03-31 20:43:32"><i class="fas fa-history fa-fw"></i> 更新于 2022-03-31</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fas fa-inbox fa-fw post-meta__icon"></i><a class="post-meta__categories" href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/">文献阅读</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta__icon"></i><span>字数总计:</span><span class="word-count">2k</span><span class="post-meta__separator">|</span><i class="far fa-clock fa-fw post-meta__icon"></i><span>阅读时长: 8 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="far fa-comments fa-fw post-meta__icon"></i><span>评论数:</span><a href="/2021/01/22/culture-strategy/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2021/01/22/culture-strategy/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="文章信息"><a href="#文章信息" class="headerlink" title="文章信息"></a>文章信息</h2><ul>
+<li><strong>题目</strong>：Innovations to culturing the uncultured microbial majority</li>
+<li><strong>年份</strong>：2020</li>
+<li><strong>单位</strong>：瓦赫宁根大学</li>
+<li><strong>DOI</strong>：10.1038/s41579-020-00458-8</li>
+<li><strong>杂志</strong>：Nature Reviews Microbiology (IF 34.209)</li>
+<li><strong>分类</strong>：Review</li>
+</ul>
+<h2 id="传统分离培养策略"><a href="#传统分离培养策略" class="headerlink" title="传统分离培养策略"></a>传统分离培养策略</h2><ul>
+<li><p>富集特定物种的技术：</p>
+<ul>
+<li><p>设计选择性培养基(如：特定底物)</p>
+</li>
+<li><p>应用选择性理化条件(如：温度，pH，盐度，气相成分)</p>
+</li>
+<li><p>添加选择性抑制剂(如：抗生素，毒性化合物，代谢抑制剂)</p>
+</li>
+<li><p>添加或省略特定生长因子(如：氨基酸，维生素，金属离子)</p>
+</li>
+</ul>
+</li>
+<li><p>筛选分离技术：</p>
+<ul>
+<li><p>根据细胞大小进行过滤</p>
+</li>
+<li><p>基于质量的梯度离心</p>
+</li>
+<li><p>根据生长速度转接</p>
+</li>
+<li><p>极限稀释</p>
+</li>
+<li><p>根据趋向性筛选(如：趋光，趋氧，趋化，趋电，趋磁)</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210121114104.png" alt=""></p>
+<h2 id="近期的成功培养案例"><a href="#近期的成功培养案例" class="headerlink" title="近期的成功培养案例"></a>近期的成功培养案例</h2><h3 id="古菌"><a href="#古菌" class="headerlink" title="古菌"></a>古菌</h3><ul>
+<li><p>阿斯加德古菌超门(<em>Candidatus</em> Prometheoarchaeum syntrophicum)</p>
+<ul>
+<li><p>目前已培养的与真核生物亲缘关系最近的古菌</p>
+</li>
+<li><p>使用一种新型生物反应器，富集12年</p>
+</li>
+</ul>
+</li>
+<li><p>纳米盐古菌门(<em>Candidatus</em> Nanohaloarchaeum antarcticus)</p>
+<ul>
+<li>结合经典富集方法与基于细胞大小的单细胞分选</li>
+</ul>
+</li>
+<li><p><em>Candidatus</em> Argoarchaeum ethanivorans 和 <em>Candidatus</em> Ethanoperedens thermophilum</p>
+<ul>
+<li><p>首次获得的与硫酸盐还原细菌互养的乙烷氧化古菌</p>
+</li>
+<li><p>传统选择富集方法</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="细菌"><a href="#细菌" class="headerlink" title="细菌"></a>细菌</h3><ul>
+<li><p>79个浮霉菌门的不同菌株</p>
+<ul>
+<li>选择性富集，抗生素处理，固体培养基划线等传统方法</li>
+</ul>
+</li>
+<li><p>首个α-变形菌纲SAR11的淡水代表菌株(<em>Candidatus</em> Fonsibacter ubiquis)</p>
+<ul>
+<li>寡营养培养基高通量极限稀释</li>
+</ul>
+</li>
+<li><p>TM7门(Saccharibacteria)的3个物种</p>
+<ul>
+<li><p>与宿主放线菌一起分离自人的唾液样品</p>
+</li>
+<li><p>反向基因组学方法<a href="#参考文献">[1]</a></p>
+</li>
+</ul>
+</li>
+<li><p>首个与β-变形菌互养的锰氧化细菌(<em>Candidatus</em> Manganitrophus noduliformans)</p>
+<ul>
+<li>选择性底物富集加极限稀释</li>
+</ul>
+</li>
+</ul>
+<h2 id="影响分离培养的因素"><a href="#影响分离培养的因素" class="headerlink" title="影响分离培养的因素"></a>影响分离培养的因素</h2><ul>
+<li><p>鉴定底物及生长条件</p>
+</li>
+<li><p>从休眠状态中复苏</p>
+</li>
+<li><p>共生依赖</p>
+</li>
+<li><p>物理接触或空间接近</p>
+</li>
+<li><p>理化环境条件</p>
+</li>
+<li><p>低丰度及竞争</p>
+<blockquote>
+<p>即使目的微生物起初在样品中是富集的，在与快生长微生物共同富集培养过程中，其丰度也可能会因为竞争而迅速下降。近期的解决方法集中在从环境样品中分离单细胞进行接种，而不是从混合群落中逐渐富集<a href="#参考文献">[2,3]</a></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="新型培养技术"><a href="#新型培养技术" class="headerlink" title="新型培养技术"></a>新型培养技术</h2><p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210121173913.png" alt=""></p>
+<h3 id="基于膜扩散的培养"><a href="#基于膜扩散的培养" class="headerlink" title="基于膜扩散的培养"></a>基于膜扩散的培养</h3><ul>
+<li><p>由于难以复制天然生境的所有必须生长因子，使用孔径合适的滤膜将微生物细胞与环境样品形成物理分隔，但允许生长因子扩散到细胞周围<a href="#参考文献">[4]</a></p>
+</li>
+<li><p>中空纤维模腔装置(HFMC)<a href="#参考文献">[5]</a></p>
+</li>
+<li><p>i(isolation)Chip<a href="#参考文献">[2]</a></p>
+</li>
+<li><p>土壤底物膜系统(SSMS)<a href="#参考文献">[6,7]</a></p>
+</li>
+<li><p>大体积的扩散生物反应器<a href="#参考文献">[8]</a></p>
+</li>
+</ul>
+<h3 id="微流控系统培养"><a href="#微流控系统培养" class="headerlink" title="微流控系统培养"></a>微流控系统培养</h3><ul>
+<li><p>SlipChip<a href="#参考文献">[9]</a></p>
+</li>
+<li><p>纳米孔微尺度微生物培养系统(NMMI)<a href="#参考文献">[3]</a></p>
+</li>
+<li><p>液滴或胶滴包裹单细胞或小群落的培养系统<a href="#参考文献">[10,11]</a></p>
+</li>
+</ul>
+<h3 id="通过细胞分选或物种-功能筛选进行分离"><a href="#通过细胞分选或物种-功能筛选进行分离" class="headerlink" title="通过细胞分选或物种/功能筛选进行分离"></a>通过细胞分选或物种/功能筛选进行分离</h3><ul>
+<li><p>基于液滴或微流控的分选</p>
+</li>
+<li><p>显微光镊精确操纵和分离单细胞<a href="#参考文献">[12]</a></p>
+<blockquote>
+<p>分离培养了纳米尺度的超嗜热古菌<em>Nanoarchaeum equitans<em>及其宿主</em>Ignicoccus hospitalis</em><a href="#参考文献">[13]</a></p>
+</blockquote>
+</li>
+<li><p>流式细胞荧光分选(FACS)</p>
+</li>
+<li><p>荧光原位杂交(FISH)</p>
+<blockquote>
+<p>近期有研究报道避免细胞固定及膜透化的”live-FISH”，并成功标记、分选并培养了天然海水中的α-变形菌，但细胞的存活率仍然非常低(1.24-2.82%)<a href="#参考文献">[14]</a></p>
+</blockquote>
+</li>
+<li><p>反向基因组学技术<a href="#参考文献">[1]</a><br><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210121211608.png" alt=""></p>
+<blockquote>
+<p>既能实现物种特异性标记和筛选，也能保持细胞的活性。根据宏基因组分箱获得的未培养微生物基因组，预测物种特异的带有胞外结构域的跨膜蛋白，以此作为抗原生产带有荧光标记的抗体。将抗体与环境样品进行孵育，标记目的细胞，通过流式细胞荧光分选收集，用于后续培养</p>
+</blockquote>
+</li>
+<li><p>基于拉曼光谱的单细胞分选(RACS)<a href="#参考文献">[15,16]</a></p>
+<blockquote>
+<p>在有利于目标微生物发挥活性的条件下用重水进行培养，重水插入更活跃的细胞新合成的脂质，称为一种化学标签。拉曼显微镜配合微流控装置能够检测插入重水的细胞，用光镊精确分选</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h3><ul>
+<li><p>形成生物膜的微生物难以进行细胞分选</p>
+</li>
+<li><p>采集自环境样品的微生物带有非生物颗粒，干扰细胞标记及基于流动的方法</p>
+</li>
+<li><p>需要在分离前将细胞从样品颗粒上脱离下来<a href="#参考文献">[17]</a></p>
+</li>
+<li><p>新技术需要的大型仪器在厌氧环境中的操作适配性</p>
+</li>
+<li><p>难以为高通量的培养方法提供气态底物(如：氢气，二氧化碳，一氧化碳，甲烷)</p>
+</li>
+<li><p>高温培养条件下液体的快速蒸发</p>
+</li>
+<li><p>分离到单细胞只是第一步，还需要找到合适的培养基及理化条件维持目标微生物的生长</p>
+<blockquote>
+<p>通过多组学数据预测目标微生物的表型特征，从而推测培养条件<a href="#参考文献">[18]</a>。或者利用”next-generation”生理学方法，在单细胞水平上判断富集液或环境样品中目标微生物的代谢及生理特征<a href="#参考文献">[19]</a></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="筛选方法"><a href="#筛选方法" class="headerlink" title="筛选方法"></a>筛选方法</h2><ul>
+<li><p>直接观察</p>
+</li>
+<li><p>光学检测生长情况</p>
+</li>
+<li><p>PCR及基于测序的筛选</p>
+</li>
+<li><p>MALDI-TOF质谱</p>
+</li>
+</ul>
+<h2 id="分离培养的目标"><a href="#分离培养的目标" class="headerlink" title="分离培养的目标"></a>分离培养的目标</h2><p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210122154855.png" alt=""><br><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20210122154944.png" alt=""></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] Cross KL, Campbell JH, Balachandran M, Campbell AG, Cooper SJ, Griffen A, Heaton M, Joshi S, Klingeman D, Leys E, Yang Z, Parks JM, Podar M. 2019. Targeted isolation and cultivation of uncultivated bacteria by reverse genomics. Nature Biotechnology 37:1314-1321.</p>
+<p>[2] Nichols D, Cahoon N, Trakhtenberg EM, Pham L, Mehta A, Belanger A, Kanigan T, Lewis K, Epstein SS. 2010. Use of Ichip for High-Throughput <em>In Situ</em> Cultivation of “Uncultivable” Microbial Species. Applied and Environmental Microbiology 76:2445.</p>
+<p>[3] Ge Z, Girguis PR, Buie CR. 2016. Nanoporous microscale microbial incubators. Lab on a Chip 16:480-488.</p>
+<p>[4] Kaeberlein T, Lewis K, Epstein SS. 2002. Isolating “Uncultivable” Microorganisms in Pure Culture in a Simulated Natural Environment. Science 296:1127.</p>
+<p>[5] Aoi Y, Kinoshita T, Hata T, Ohta H, Obokata H, Tsuneda S. 2009. Hollow-fiber membrane chamber as a device for in situ environmental cultivation. Appl Environ Microbiol 75:3826-33.</p>
+<p>[6] Ferrari BC, Binnerup SJ, Gillings M. 2005. Microcolony Cultivation on a Soil Substrate Membrane System Selects for Previously Uncultured Soil Bacteria. Applied and Environmental Microbiology 71:8714.</p>
+<p>[7] Svenning MM, Wartiainen I, Hestnes AG, Binnerup SJ. 2003. Isolation of methane oxidising bacteria from soil by use of a soil substrate membrane system. FEMS Microbiology Ecology 44:347-354.</p>
+<p>[8] Chaudhary DK, Khulan A, Kim J. 2019. Development of a novel cultivation technique for uncultured soil bacteria. Sci Rep 9:6666.</p>
+<p>[9] Ma L, Kim J, Hatzenpichler R, Karymov MA, Hubert N, Hanan IM, Chang EB, Ismagilov RF. 2014. Gene-targeted microfluidic cultivation validated by isolation of a gut bacterium listed in Human Microbiome Project’s Most Wanted taxa. Proceedings of the National Academy of Sciences 111:9768.</p>
+<p>[10] Watterson WJ, Tanyeri M, Watson AR, Cham CM, Shan Y, Chang EB, Eren AM, Tay S. 2020. Droplet-based high-throughput cultivation for accurate screening of antibiotic resistant gut microbes. Elife 9.</p>
+<p>[11] Eun Y-J, Utada AS, Copeland MF, Takeuchi S, Weibel DB. 2011. Encapsulating Bacteria in Agarose Microparticles Using Microfluidics for High-Throughput Cell Analysis and Isolation. ACS Chemical Biology 6:260-266.</p>
+<p>[12] Wang X, Chen S, Kong M, Wang Z, Costa KD, Li RA, Sun D. 2011. Enhanced cell sorting and manipulation with combined optical tweezer and microfluidic chip technologies. Lab on a Chip 11:3656-3662.</p>
+<p>[13] Huber H, Hohn MJ, Rachel R, Fuchs T, Wimmer VC, Stetter KO. 2002. A new phylum of Archaea represented by a nanosized hyperthermophilic symbiont. Nature 417:63-67.</p>
+<p>[14] Batani G, Bayer K, Böge J, Hentschel U, Thomas T. 2019. Fluorescence in situ hybridization (FISH) and cell sorting of living bacteria. Scientific Reports 9:18618.</p>
+<p>[15] Berry D, Mader E, Lee TK, Woebken D, Wang Y, Zhu D, Palatinszky M, Schintlmeister A, Schmid MC, Hanson BT, Shterzer N, Mizrahi I, Rauch I, Decker T, Bocklitz T, Popp J, Gibson CM, Fowler PW, Huang WE, Wagner M. 2015. Tracking heavy water (D2O) incorporation for identifying and sorting active microbial cells. Proceedings of the National Academy of Sciences 112:E194.</p>
+<p>[16] Lee KS, Palatinszky M, Pereira FC, Nguyen J, Fernandez VI, Mueller AJ, Menolascina F, Daims H, Berry D, Wagner M, Stocker R. 2019. An automated Raman-based platform for the sorting of live cells by functional properties. Nature Microbiology 4:1035-1048.</p>
+<p>[17] Morono Y, Terada T, Kallmeyer J, Inagaki F. 2013. An improved cell separation technique for marine subsurface sediments: applications for high-throughput analysis using flow cytometry and cell sorting. Environmental microbiology 15:2841-2849.</p>
+<p>[18] Gutleben J, Chaib De Mares M, van Elsas JD, Smidt H, Overmann J, Sipkema D. 2018. The multi-omics promise in context: from sequence to microbial isolate. Crit Rev Microbiol 44:212-229.</p>
+<p>[19] Hatzenpichler R, Krukenberg V, Spietz RL, Jay ZJ. 2020. Next-generation physiology approaches to study microbiome function at single cell level. Nature Reviews Microbiology 18:241-256.</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:zhuhaizhen1024@163.com">Zhu Haizhen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://zhuhaizhen.github.io/2021/01/22/culture-strategy/">https://zhuhaizhen.github.io/2021/01/22/culture-strategy/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhuhaizhen.github.io" target="_blank">Haizhen's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/cultivation/">cultivation</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/serene_site/image/tree/master/img/sky-5347490_1920.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><button class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/image/wechat.jpg" alt="微信" onclick="window.open('/image/wechat.jpg')"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/image/alipay.jpg" alt="支付宝" onclick="window.open('/image/alipay.jpg')"/><div class="post-qr-code__desc">支付宝</div></li></ul></div></button></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/01/30/reverse-genomics/"><img class="prev-cover" data-src="https://gitee.com/serene_site/image/tree/master/img/starry-sky-5343630_1920.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">利用反向基因组学技术定向分离未培养细菌</div></div></a></div><div class="next-post pull-right"><a href="/2021/01/14/ensemble/"><img class="next-cover" data-src="https://gitee.com/serene_site/image/tree/master/img/mountains-1412683_1280.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">集成学习方法</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2021/01/30/reverse-genomics/" title="利用反向基因组学技术定向分离未培养细菌"><img class="relatedPosts_cover" data-src="https://gitee.com/serene_site/image/tree/master/img/starry-sky-5343630_1920.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-30</div><div class="relatedPosts_title">利用反向基因组学技术定向分离未培养细菌</div></div></a></div></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'昵称,邮箱,网址')
+var requiredFields = requestSetting(['nick','mail'],'昵称,邮箱')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'yDcQjFWTIoApJ6qYc7DCVIjO-gzGzoHsz',
+  appKey: 'y66ni3n3AtYNrLgaqdJGzAPo',
+  placeholder: '请留下你的昵称和邮箱，方便接收回复',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-CN',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: false,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Zhu Haizhen</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">君子不器</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fas fa-comments"></i></a><button class="close" id="mobile-toc-button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="/js/third-party/click_heart.js"></script><script src="/js/search/algolia.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

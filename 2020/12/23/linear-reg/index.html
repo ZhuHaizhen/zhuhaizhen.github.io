@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>线性回归 | Haizhen's Blog</title><meta name="description" content="线性回归、多项式回归、过拟合与欠拟合、正则化"><meta name="keywords" content="machine learning,linear regression,polynominal regression,regularization"><meta name="author" content="Zhu Haizhen,zhuhaizhen1024@163.com"><meta name="copyright" content="Zhu Haizhen"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/image/favicon.png"><link rel="canonical" href="https://zhuhaizhen.github.io/2020/12/23/linear-reg/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="线性回归"><meta property="og:url" content="https://zhuhaizhen.github.io/2020/12/23/linear-reg/"><meta property="og:site_name" content="Haizhen's Blog"><meta property="og:description" content="线性回归、多项式回归、过拟合与欠拟合、正则化"><meta property="og:image" content="https://gitee.com/serene_site/image/tree/master/img/fantasy-5316260_1920.jpg"><meta property="article:published_time" content="2020-12-23T13:01:29.000Z"><meta property="article:modified_time" content="2022-03-31T12:47:23.858Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="prev" title="逻辑回归" href="https://zhuhaizhen.github.io/2020/12/29/log-reg/"><link rel="next" title="线性规划与单纯形算法" href="https://zhuhaizhen.github.io/2020/12/09/LP&amp;simplex/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6b1c40d9cb0aeba42b229c550f73967b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"ULAMU2VKLC","apiKey":"074084189662d00e3b579aef488f16a5","indexName":"hexo-blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/image/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">23</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">32</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#线性回归"><span class="toc-number">1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本形式"><span class="toc-number">1.1.</span> <span class="toc-text">基本形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优化目标"><span class="toc-number">1.2.</span> <span class="toc-text">优化目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解析解"><span class="toc-number">1.3.</span> <span class="toc-text">解析解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多项式回归"><span class="toc-number">2.</span> <span class="toc-text">多项式回归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过拟合与欠拟合"><span class="toc-number">3.</span> <span class="toc-text">过拟合与欠拟合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#偏差和方差"><span class="toc-number">3.1.</span> <span class="toc-text">偏差和方差</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正则化"><span class="toc-number">4.</span> <span class="toc-text">正则化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#L1正则-Lasso回归"><span class="toc-number">4.1.</span> <span class="toc-text">L1正则 (Lasso回归)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#L2正则-Ridge回归"><span class="toc-number">4.2.</span> <span class="toc-text">L2正则 (Ridge回归)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ElasticNet"><span class="toc-number">4.3.</span> <span class="toc-text">ElasticNet</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/serene_site/image/tree/master/img/fantasy-5316260_1920.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Haizhen's Blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">线性回归</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-12-23 21:01:29"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2020-12-23</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2022-03-31 20:47:23"><i class="fas fa-history fa-fw"></i> 更新于 2022-03-31</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fas fa-inbox fa-fw post-meta__icon"></i><a class="post-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E7%90%86%E8%A7%A3/">算法理解</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta__icon"></i><span>字数总计:</span><span class="word-count">1.7k</span><span class="post-meta__separator">|</span><i class="far fa-clock fa-fw post-meta__icon"></i><span>阅读时长: 5 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="far fa-comments fa-fw post-meta__icon"></i><span>评论数:</span><a href="/2020/12/23/linear-reg/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2020/12/23/linear-reg/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><h3 id="基本形式"><a href="#基本形式" class="headerlink" title="基本形式"></a>基本形式</h3><p>线性回归是一个通过特征的线性组合来进行预测的模型，其基本形式为：<br>$$f(x) = w_1x_1 + w_2x_2 + … + w_nx_n + b$$<br>写成向量的形式即为：<br>$$f(x) = w^Tx + b$$<br>由于 $w$ 直观表达了各属性在预测中的重要性，因此，线性模型具有很好的可解释性 (comprehensibility)</p>
+<p>为了表示方便，将所有 $x_i$ 组合成一个矩阵，并额外添加一个值全为 $1$ 的列，将 $b$ 吸收进 $w$ 中，即：<br>$$\begin{align}<br>&amp; X = \begin{pmatrix} x_{11} &amp; x_{12} &amp; … &amp; x_{1n} &amp; 1 \\ x_{21} &amp; x_{22} &amp; … &amp; x_{2n} &amp; 1 \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\<br>x_{m1} &amp; x_{m2} &amp; … &amp; x_{mn} &amp; 1\end{pmatrix} \\<br>&amp; w = (w_{old}, \ b) \\<br>&amp; f(x) = Xw<br>\end{align}$$</p>
+<blockquote>
+<p>其中，样本数为 $m$ ，特征数为 $n$ ；$X$ 的维度为 $(m, n+1)$ ，$Y$ 的维度为 $(m, 1)$ $w$ 的维度为 $(n+1, 1)$</p>
+</blockquote>
+<h3 id="优化目标"><a href="#优化目标" class="headerlink" title="优化目标"></a>优化目标</h3><p>在回归问题中，常使用<strong>均方误差</strong> (square loss)衡量预测值与实际值之间的差别，即：<br>$$err(f(x_i),y_i) = (f(x_i) - y_i)^2$$<br>均方误差有很好的几何意义，它对应了常用的<strong>欧几里得距离</strong> (Euclidean distance)。基于最小化均方误差求解模型的方法称为<strong>最小二乘法</strong> (least square method)</p>
+<p>线性回归的优化目标为：<br>$$\arg \min_w \sum_{i=1}^m(f(x_i) - y_i)^2 = \ \arg \min_w \sum_{i=1}^m (w^Tx_i - y_i)^2$$</p>
+<blockquote>
+<p>求解 $w$ 的过程称为线性回归模型的最小二乘参数估计 (parameter estimation)</p>
+</blockquote>
+<p>为方便求导，将线性回归的<strong>损失函数</strong>写为：<br>$$J(w) = \frac{1}{2m} \sum_{i=1}^m (w^Tx_i - y_i)^2$$</p>
+<h3 id="解析解"><a href="#解析解" class="headerlink" title="解析解"></a>解析解</h3><ul>
+<li><p>均方误差可以表示为：<br>$$\begin{align}<br>L(w) &amp; = ||Xw - Y||^2 \\<br>&amp; = (Xw - Y)^T(Xw - Y) \\<br>&amp; = Y^TY - Y^TXw - w^TX^TY + w^TX^TXw<br>\end{align}$$</p>
+</li>
+<li><p>对 $w$ 求导可得：<br>$$\begin{align}<br>\frac{\partial{L}}{\partial{w}} &amp; = 0 - X^TY - X^TY + 2X^TXw \\<br>&amp; = 2X^TXw - 2X^TY<br>\end{align}$$</p>
+</li>
+<li><p>令 $\frac{\partial{L}}{\partial{w}} = 0$ 可得：<br>$$X^TXw = X^TY \implies w = (X^TX)^{-1}X^TY$$</p>
+<blockquote>
+<p>通常情况下， $特征数 \ n &lt;&lt; 样本数 \ m$ ，使得 $X^TX$ 满秩，有唯一解。若 $样本数 \ m &lt; 特征数 \ n$ ，则可解出多个 $w$ ，都能使得均方误差最小。</p>
+</blockquote>
+</li>
+<li><p>实际求解过程中，一般会直接计算 $(X^TX)^{-1}X^T$， 该式称为 $X$ 的<strong>伪逆</strong></p>
+</li>
+</ul>
+<h2 id="多项式回归"><a href="#多项式回归" class="headerlink" title="多项式回归"></a>多项式回归</h2><ul>
+<li><p>当训练数据的分布不符合线性模型时，可以将每一个特征的<strong>幂次方</strong>添加为一个新的特征对训练数据进行拓展，然后在这个经过拓展的数据集上进行线性拟合，称为<strong>多项式回归</strong></p>
+</li>
+<li><p>示例：</p>
+<ol>
+<li><p>对数据 $x$ 进行线性拟合，如图所示<br><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20201222192854.png" alt=""></p>
+</li>
+<li><p>令 $\phi(x) = [1,x,x^2]$ ，对 $\phi(x)$ 进行线性拟合，即 $y = w_0 + w_1x + w_2 x^2 = \phi(x) \cdot [w_0,w_1,w_2]$ ,如图所示<br><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20201222193213.png" alt=""></p>
+</li>
+</ol>
+</li>
+<li><p>对原训练集进行的扩展并非幂次越高越好，幂次方过高容易造成<strong>过拟合</strong></p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20201222193742.png" alt=""></p>
+<h2 id="过拟合与欠拟合"><a href="#过拟合与欠拟合" class="headerlink" title="过拟合与欠拟合"></a>过拟合与欠拟合</h2><h3 id="偏差和方差"><a href="#偏差和方差" class="headerlink" title="偏差和方差"></a>偏差和方差</h3><p>在训练模型的过程中存在两种误差，分别是<strong>偏差</strong>和<strong>方差</strong>。偏差表示预测值与实际值之间的差异，方差表示模型对数据变化的敏感程度</p>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20201222195200.png" alt=""></p>
+<blockquote>
+<p>左上图训练数据的分布比较集中，且与圆心的预测值较好地吻合，此时方差和偏差都比较小；右上图数据的分布比较集中，但与预测值相互偏离，此时方差较小，但偏差较大；左下图训练数据分布在预测值附近，但其分布较为分散，此时偏差较小，但方差较大；右下图数据分布较为分散，且偏离预测值，此时方差和偏差都比较大</p>
+</blockquote>
+<ul>
+<li><p>造成高偏差的根本原因是模型太简单，不能很好地拟合训练数据，导致预测值与真实值差别较大，这种情况就是<strong>欠拟合</strong></p>
+</li>
+<li><p>造成高方差的原因往往是模型过于复杂，对训练数据过于依赖，极小的数据扰动就会造成预测结果的巨大变化，这种情况就是<strong>过拟合</strong></p>
+</li>
+</ul>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20201223192633.png" alt=""></p>
+<blockquote>
+<p>机器学习的很多算法本质上就是高方差的算法，例如KNN、决策树等非参数学习的算法；而线性回归、神经网络等参数学习的算法通常是高偏差的算法。模型调参的过程本质上是权衡方差和偏差的过程，一般而言，降低方差的同时，模型的偏差会增大；而降低偏差的同时，模型的方差会增大</p>
+</blockquote>
+<ul>
+<li><p>欠拟合的解决方法</p>
+<ol>
+<li>增加特征的数量</li>
+<li>增加模型复杂度</li>
+</ol>
+</li>
+<li><p>过拟合的解决方法</p>
+<ol>
+<li>增加训练数据</li>
+<li>降低模型复杂度</li>
+<li>对特征进行筛选</li>
+<li>正则化</li>
+</ol>
+</li>
+</ul>
+<h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><p>通过在损失函数中添加正则化项，对模型中权重较大的特征进行惩罚，从而避免模型对某些特征过度依赖，降低模型的复杂度</p>
+<h3 id="L1正则-Lasso回归"><a href="#L1正则-Lasso回归" class="headerlink" title="L1正则 (Lasso回归)"></a>L1正则 (Lasso回归)</h3><p>$$J(\theta) = \frac{1}{2m}\sum_{i=1}^m(w^Tx_i - y_i)^2 + \lambda||w||_1$$</p>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20201223201241.png" alt=""></p>
+<blockquote>
+<p>将原始的损失函数记为 $J_0$ ，经过L1正则化的损失函数记为 $J = J_0 + L1$ ，其中 $L1 = \lambda||w||_1$ 。在二维情况下， $J_0$ 对应的等高线如图中同心圆环， $L1$ 对应的等高线如图中正方形所示。在位于正方形顶点的位置可以取得 $J$ 的最小值，而在顶点处意味着和某些坐标轴相交，即某些 $w_i$ 的值为0</p>
+</blockquote>
+<ul>
+<li><p>不易计算，在顶点处连续但不可导</p>
+</li>
+<li><p>通过L1正则化，可以<strong>将某些特征的权重缩小到零</strong>，从而起到特征筛选的作用</p>
+</li>
+<li><p>由于可以执行隐式的特征筛选，因此通常是特征数量巨大时的首选方案</p>
+</li>
+<li><p>与L2正则化相比通常效果较差</p>
+</li>
+<li><p>对异常值具有更好的抵抗力</p>
+</li>
+</ul>
+<h3 id="L2正则-Ridge回归"><a href="#L2正则-Ridge回归" class="headerlink" title="L2正则 (Ridge回归)"></a>L2正则 (Ridge回归)</h3><p>$$J(\theta) = \frac{1}{2m}(w^Tx_i - y_i)^2 + \lambda||w||_2^2$$</p>
+<p><img src= "/img/loading.gif" data-src="https://gitee.com/serene_site/image/tree/master/img/20201223204357.png" alt=""></p>
+<blockquote>
+<p>将原始的损失函数记为 $J_0$ ，经过L2正则化的损失函数记为 $J = J_0 + L2$ ，其中 $L2 = \lambda||w||_2^2$ 。在二维情况下， $J_0$ 对应的等高线如图中同心椭圆环， $L2$ 对应的等高线如图中正圆形所示。在 $J_0$ 与 $L2$ 相切的位置可以取得 $J$ 的最小值</p>
+</blockquote>
+<ul>
+<li><p>容易计算，可导，梯度下降法适用</p>
+</li>
+<li><p>将一些特征的权重缩小到接近零但不为零</p>
+</li>
+<li><p>当特征数量巨大时，计算量比较大</p>
+</li>
+<li><p>对异常值非常敏感</p>
+</li>
+</ul>
+<h3 id="ElasticNet"><a href="#ElasticNet" class="headerlink" title="ElasticNet"></a>ElasticNet</h3><p>$$J(\theta) = \frac{1}{2m}(w^Tx_i - y_i)^2 + \lambda(\gamma||w||_1 + \frac{1 - \gamma}{2}||w||_2^2)$$</p>
+<blockquote>
+<p>是L1正则和L2正则的凸组合，其中 $\gamma$ 控制L1正则与L2正则的强度</p>
+</blockquote>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:zhuhaizhen1024@163.com">Zhu Haizhen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://zhuhaizhen.github.io/2020/12/23/linear-reg/">https://zhuhaizhen.github.io/2020/12/23/linear-reg/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhuhaizhen.github.io" target="_blank">Haizhen's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/machine-learning/">machine learning</a><a class="post-meta__tags" href="/tags/linear-regression/">linear regression</a><a class="post-meta__tags" href="/tags/polynominal-regression/">polynominal regression</a><a class="post-meta__tags" href="/tags/regularization/">regularization</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/serene_site/image/tree/master/img/sky-5347490_1920.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><button class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/image/wechat.jpg" alt="微信" onclick="window.open('/image/wechat.jpg')"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/image/alipay.jpg" alt="支付宝" onclick="window.open('/image/alipay.jpg')"/><div class="post-qr-code__desc">支付宝</div></li></ul></div></button></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/12/29/log-reg/"><img class="prev-cover" data-src="https://gitee.com/serene_site/image/tree/master/img/book-5280551_1920.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">逻辑回归</div></div></a></div><div class="next-post pull-right"><a href="/2020/12/09/LP&amp;simplex/"><img class="next-cover" data-src="https://gitee.com/serene_site/image/tree/master/img/starry-sky-5343630_1920.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">线性规划与单纯形算法</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/12/09/LP&simplex/" title="线性规划与单纯形算法"><img class="relatedPosts_cover" data-src="https://gitee.com/serene_site/image/tree/master/img/starry-sky-5343630_1920.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-09</div><div class="relatedPosts_title">线性规划与单纯形算法</div></div></a></div><div class="relatedPosts_item"><a href="/2021/01/04/PCA&LDA/" title="PCA和LDA"><img class="relatedPosts_cover" data-src="https://gitee.com/serene_site/image/tree/master/img/fantasy-5316260_1920.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-04</div><div class="relatedPosts_title">PCA和LDA</div></div></a></div><div class="relatedPosts_item"><a href="/2020/12/05/SMO/" title="SMO算法"><img class="relatedPosts_cover" data-src="https://gitee.com/serene_site/image/tree/master/img/sky-5347490_1920.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-05</div><div class="relatedPosts_title">SMO算法</div></div></a></div></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'昵称,邮箱,网址')
+var requiredFields = requestSetting(['nick','mail'],'昵称,邮箱')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'yDcQjFWTIoApJ6qYc7DCVIjO-gzGzoHsz',
+  appKey: 'y66ni3n3AtYNrLgaqdJGzAPo',
+  placeholder: '请留下你的昵称和邮箱，方便接收回复',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-CN',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: false,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Zhu Haizhen</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">君子不器</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fas fa-comments"></i></a><button class="close" id="mobile-toc-button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="/js/third-party/click_heart.js"></script><script src="/js/search/algolia.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

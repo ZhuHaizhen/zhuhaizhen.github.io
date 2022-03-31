@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kaggle特征工程课程 | Haizhen's Blog</title><meta name="description" content="Mutual InformationMI优点： 可解释性好 计算效率高 理论基础好 不易发生过拟合 可以检测任何关系，不止线性相关  MI取值范围 最小是0，这种情况下两个变量是完全独立的，不能为彼此提供任何信息 没有上限，实际应用中很少超过2  使用MI的注意事项 有可能有的特征与其他特征相结合时对于预测目标非常重要，而它自身并没有那么有潜力，MI是单一变量指标，无法检测特征之间的相互作用 某个"><meta name="keywords" content="Feature engineering,Machine learning"><meta name="author" content="Zhu Haizhen,zhuhaizhen1024@163.com"><meta name="copyright" content="Zhu Haizhen"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/image/favicon.png"><link rel="canonical" href="https://zhuhaizhen.github.io/2021/12/16/kaggle-feature-engineering/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Kaggle特征工程课程"><meta property="og:url" content="https://zhuhaizhen.github.io/2021/12/16/kaggle-feature-engineering/"><meta property="og:site_name" content="Haizhen's Blog"><meta property="og:description" content="Mutual InformationMI优点： 可解释性好 计算效率高 理论基础好 不易发生过拟合 可以检测任何关系，不止线性相关  MI取值范围 最小是0，这种情况下两个变量是完全独立的，不能为彼此提供任何信息 没有上限，实际应用中很少超过2  使用MI的注意事项 有可能有的特征与其他特征相结合时对于预测目标非常重要，而它自身并没有那么有潜力，MI是单一变量指标，无法检测特征之间的相互作用 某个"><meta property="og:image" content="https://gitee.com/serene_site/image/tree/master/img/sky-5347490_1920.jpg"><meta property="article:published_time" content="2021-12-16T11:51:29.000Z"><meta property="article:modified_time" content="2022-03-31T12:15:18.324Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="next" title="力扣刷题（数据库-中等/困难-非vip）" href="https://zhuhaizhen.github.io/2021/04/23/leetcode-MySQL-2/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6b1c40d9cb0aeba42b229c550f73967b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"ULAMU2VKLC","apiKey":"074084189662d00e3b579aef488f16a5","indexName":"hexo-blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/image/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">23</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">32</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mutual-Information"><span class="toc-number">1.</span> <span class="toc-text">Mutual Information</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MI优点："><span class="toc-number">1.1.</span> <span class="toc-text">MI优点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MI取值范围"><span class="toc-number">1.2.</span> <span class="toc-text">MI取值范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用MI的注意事项"><span class="toc-number">1.3.</span> <span class="toc-text">使用MI的注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MI的计算"><span class="toc-number">1.4.</span> <span class="toc-text">MI的计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Creating-Features"><span class="toc-number">2.</span> <span class="toc-text">Creating Features</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何发现新特征"><span class="toc-number">2.1.</span> <span class="toc-text">如何发现新特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数学转化"><span class="toc-number">2.2.</span> <span class="toc-text">数学转化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计数"><span class="toc-number">2.3.</span> <span class="toc-text">计数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造和拆解特征"><span class="toc-number">2.4.</span> <span class="toc-text">构造和拆解特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分组转化"><span class="toc-number">2.5.</span> <span class="toc-text">分组转化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于创造特征的注意事项"><span class="toc-number">2.6.</span> <span class="toc-text">关于创造特征的注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clustering-With-K-Means"><span class="toc-number">3.</span> <span class="toc-text">Clustering With K-Means</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#把聚类标签作为一个特征"><span class="toc-number">3.1.</span> <span class="toc-text">把聚类标签作为一个特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#K-Means聚类"><span class="toc-number">3.2.</span> <span class="toc-text">K-Means聚类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Principal-Component-Analysis"><span class="toc-number">4.</span> <span class="toc-text">Principal Component Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Target-Encoding"><span class="toc-number">5.</span> <span class="toc-text">Target Encoding</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#目标编码"><span class="toc-number">5.1.</span> <span class="toc-text">目标编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平滑"><span class="toc-number">5.2.</span> <span class="toc-text">平滑</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/serene_site/image/tree/master/img/sky-5347490_1920.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Haizhen's Blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Kaggle特征工程课程</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2021-12-16 19:51:29"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2021-12-16</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2022-03-31 20:15:18"><i class="fas fa-history fa-fw"></i> 更新于 2022-03-31</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fas fa-inbox fa-fw post-meta__icon"></i><a class="post-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta__icon"></i><span>字数总计:</span><span class="word-count">1.1k</span><span class="post-meta__separator">|</span><i class="far fa-clock fa-fw post-meta__icon"></i><span>阅读时长: 3 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="far fa-comments fa-fw post-meta__icon"></i><span>评论数:</span><a href="/2021/12/16/kaggle-feature-engineering/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2021/12/16/kaggle-feature-engineering/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="Mutual-Information"><a href="#Mutual-Information" class="headerlink" title="Mutual Information"></a>Mutual Information</h2><h3 id="MI优点："><a href="#MI优点：" class="headerlink" title="MI优点："></a>MI优点：</h3><ul>
+<li>可解释性好</li>
+<li>计算效率高</li>
+<li>理论基础好</li>
+<li>不易发生过拟合</li>
+<li>可以检测任何关系，不止线性相关</li>
+</ul>
+<h3 id="MI取值范围"><a href="#MI取值范围" class="headerlink" title="MI取值范围"></a>MI取值范围</h3><ul>
+<li>最小是<code>0</code>，这种情况下两个变量是完全独立的，不能为彼此提供任何信息</li>
+<li>没有上限，实际应用中很少超过<code>2</code></li>
+</ul>
+<h3 id="使用MI的注意事项"><a href="#使用MI的注意事项" class="headerlink" title="使用MI的注意事项"></a>使用MI的注意事项</h3><ul>
+<li>有可能有的特征与其他特征相结合时对于预测目标非常重要，而它自身并没有那么有潜力，MI是单一变量指标，无法检测特征之间的相互作用</li>
+<li>某个特征的有效性取决于使用的模型，只有使用能够学习到该特征与目标之间相关性的模型，特征才能如MI检测到的那样有效</li>
+</ul>
+<h3 id="MI的计算"><a href="#MI的计算" class="headerlink" title="MI的计算"></a>MI的计算</h3><ul>
+<li><code>sklearn.feature_selection.mutual_info_regression</code>用于连续型预测目标</li>
+<li><code>sklearn.feature_selection.mutual_info_classif</code>用于类别型预测目标</li>
+<li>所有类别型特征都需要编码成<code>int</code>类型，并在调用函数时通过参数<code>discrete_features</code>指明这些特征</li>
+</ul>
+<h2 id="Creating-Features"><a href="#Creating-Features" class="headerlink" title="Creating Features"></a>Creating Features</h2><h3 id="如何发现新特征"><a href="#如何发现新特征" class="headerlink" title="如何发现新特征"></a>如何发现新特征</h3><ul>
+<li>理解特征，参考数据集文档</li>
+<li>探究问题所在的领域，获取领域知识</li>
+<li>参考前人的工作</li>
+<li>借助数据可视化</li>
+</ul>
+<h3 id="数学转化"><a href="#数学转化" class="headerlink" title="数学转化"></a>数学转化</h3><ul>
+<li>组合越复杂，模型学起来越困难</li>
+<li>可以通过指数或对数变换缓解数据偏斜</li>
+</ul>
+<h3 id="计数"><a href="#计数" class="headerlink" title="计数"></a>计数</h3><ul>
+<li>将一系列布尔值特征直接求和</li>
+<li>统计一系列特征中，大于某个值的特征数<blockquote>
+<p>例如，空值为0，则可以通过<code>.gt(0).sum(axis=1)</code>统计大于0的个数</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="构造和拆解特征"><a href="#构造和拆解特征" class="headerlink" title="构造和拆解特征"></a>构造和拆解特征</h3><ul>
+<li>将具有明确结构的特征，如电话号码、地址、网址、日期时间等拆解成多个特征</li>
+<li>将简单特征进行拼接</li>
+</ul>
+<h3 id="分组转化"><a href="#分组转化" class="headerlink" title="分组转化"></a>分组转化</h3><ul>
+<li>利用聚合函数产生新特征</li>
+<li>只用训练集数据产生特征，然后合并到验证集上</li>
+</ul>
+<h3 id="关于创造特征的注意事项"><a href="#关于创造特征的注意事项" class="headerlink" title="关于创造特征的注意事项"></a>关于创造特征的注意事项</h3><ul>
+<li>线性模型天然擅长学习加减，不擅长学习更复杂的关系</li>
+<li>对大多数模型来说，比例都很难学习</li>
+<li>线性模型和神经网络通常更擅长标准化的数据，神经网络尤其需要将特征值缩放到0附近，树模型有时候更擅长标准化的数据，但大多数时候不敏感</li>
+<li>树模型基本上能够拟合特征的任意组合，但对于特别重要的特征组合，明确将其创造出来仍然对模型有帮助，在数据有限的情况下尤其如此</li>
+<li>计数对树模型来说格外有效，因为树模型无法一次聚合多个特征</li>
+</ul>
+<h2 id="Clustering-With-K-Means"><a href="#Clustering-With-K-Means" class="headerlink" title="Clustering With K-Means"></a>Clustering With K-Means</h2><h3 id="把聚类标签作为一个特征"><a href="#把聚类标签作为一个特征" class="headerlink" title="把聚类标签作为一个特征"></a>把聚类标签作为一个特征</h3><ul>
+<li>把特征之间复杂的相互关系转化成一些简单的块，模型可以一块一块地学习，而不是一次学习整个复杂的数据</li>
+<li>也可以把样本到每一类质心的距离作为特征</li>
+</ul>
+<h3 id="K-Means聚类"><a href="#K-Means聚类" class="headerlink" title="K-Means聚类"></a>K-Means聚类</h3><ul>
+<li>使用欧式距离</li>
+<li><code>n_init</code>参数表示随机初始化的次数，返回每个点到质心的总距离最短的初始化结果</li>
+<li>对于<code>n_clusters</code>比较大的数据集，需要增大<code>max_iter</code>，对于复杂数据集，需要增大<code>n_init</code></li>
+<li>需要对数据进行缩放</li>
+</ul>
+<h2 id="Principal-Component-Analysis"><a href="#Principal-Component-Analysis" class="headerlink" title="Principal Component Analysis"></a>Principal Component Analysis</h2><ul>
+<li>需要对数据进行标准化，对于标准化的数据来说，<code>variation</code>表示相关性<code>correlation</code>；对于非标准化的数据来说，<code>variation</code>表示协方差<code>covariance</code></li>
+<li>作为描述性技术使用：计算每个主成分的互信息分，由此决定创造哪些新特征</li>
+<li>把主成分作为特征使用：<ul>
+<li>降维：适用于特征高度冗余的情况</li>
+<li>异常检测</li>
+<li>降噪</li>
+<li>解除相关性</li>
+</ul>
+</li>
+</ul>
+<h2 id="Target-Encoding"><a href="#Target-Encoding" class="headerlink" title="Target Encoding"></a>Target Encoding</h2><h3 id="目标编码"><a href="#目标编码" class="headerlink" title="目标编码"></a>目标编码</h3><ul>
+<li>根据标签把类别特征转化成数字</li>
+</ul>
+<h3 id="平滑"><a href="#平滑" class="headerlink" title="平滑"></a>平滑</h3><ul>
+<li><code>encoding = weight * in_category + (1 - weight) * overall</code></li>
+<li><code>weight = n / (n + m)</code>，n是该类别出现的次数，m是平滑系数；m越大，总体估计占的权重越大</li>
+<li>如果不同类别的样本平均值差别很大，则选择较大的平滑系数</li>
+<li>适用于类别非常多，不方便进行独热编码的情况</li>
+<li><code>from category_encoders import MEstimateEncoder</code></li>
+</ul>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:zhuhaizhen1024@163.com">Zhu Haizhen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://zhuhaizhen.github.io/2021/12/16/kaggle-feature-engineering/">https://zhuhaizhen.github.io/2021/12/16/kaggle-feature-engineering/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhuhaizhen.github.io" target="_blank">Haizhen's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Feature-engineering/">Feature engineering</a><a class="post-meta__tags" href="/tags/Machine-learning/">Machine learning</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/serene_site/image/tree/master/img/sky-5347490_1920.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><button class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/image/wechat.jpg" alt="微信" onclick="window.open('/image/wechat.jpg')"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/image/alipay.jpg" alt="支付宝" onclick="window.open('/image/alipay.jpg')"/><div class="post-qr-code__desc">支付宝</div></li></ul></div></button></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/23/leetcode-MySQL-2/"><img class="next-cover" data-src="https://gitee.com/serene_site/image/tree/master/img/fantasy-5316260_1920.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">力扣刷题（数据库-中等/困难-非vip）</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'昵称,邮箱,网址')
+var requiredFields = requestSetting(['nick','mail'],'昵称,邮箱')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'yDcQjFWTIoApJ6qYc7DCVIjO-gzGzoHsz',
+  appKey: 'y66ni3n3AtYNrLgaqdJGzAPo',
+  placeholder: '请留下你的昵称和邮箱，方便接收回复',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-CN',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: false,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Zhu Haizhen</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">君子不器</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fas fa-comments"></i></a><button class="close" id="mobile-toc-button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="/js/third-party/click_heart.js"></script><script src="/js/search/algolia.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
