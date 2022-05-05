@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>seaborn回归模块 | Haizhen's Blog</title><meta name="description" content="seaborn regression 很多数据集包含多个数字变量，分析的目标通常是把这些变量关联起来。之前介绍了通过展示两个变量的联合分布来实现这一目标的函数。尽管如此，使用统计模型来估计两组杂乱的观测之间的简单关系仍然很有帮助。本章讨论的函数通过线性回归的常用框架完成上述任务 遵循Turkey的理念，seaborn的回归图主要想增加一种视觉指导，有助于在探索性数据分析的过程中突出数据的模式。这就"><meta name="keywords" content="python,seaborn"><meta name="author" content="Zhu Haizhen,zhuhaizhen1024@163.com"><meta name="copyright" content="Zhu Haizhen"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/image/favicon.png"><link rel="canonical" href="https://zhuhaizhen.github.io/2022/05/03/sns-regression/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="seaborn回归模块"><meta property="og:url" content="https://zhuhaizhen.github.io/2022/05/03/sns-regression/"><meta property="og:site_name" content="Haizhen's Blog"><meta property="og:description" content="seaborn regression 很多数据集包含多个数字变量，分析的目标通常是把这些变量关联起来。之前介绍了通过展示两个变量的联合分布来实现这一目标的函数。尽管如此，使用统计模型来估计两组杂乱的观测之间的简单关系仍然很有帮助。本章讨论的函数通过线性回归的常用框架完成上述任务 遵循Turkey的理念，seaborn的回归图主要想增加一种视觉指导，有助于在探索性数据分析的过程中突出数据的模式。这就"><meta property="og:image" content="https://s1.ax1x.com/2022/04/02/qo9QeK.png"><meta property="article:published_time" content="2022-05-03T03:14:29.000Z"><meta property="article:modified_time" content="2022-05-05T11:18:35.381Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="prev" title="seaborn分面技巧" href="https://zhuhaizhen.github.io/2022/05/03/sns-facet/"><link rel="next" title="seaborn类别型模块" href="https://zhuhaizhen.github.io/2022/05/02/sns-categorical/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?6b1c40d9cb0aeba42b229c550f73967b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"ULAMU2VKLC","apiKey":"074084189662d00e3b579aef488f16a5","indexName":"hexo-blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容:${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: Zhu Haizhen","link":"链接: ","source":"来源: Haizhen's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/image/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">33</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">35</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#绘制线性回归模型的函数"><span class="toc-number">1.</span> <span class="toc-text">绘制线性回归模型的函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拟合不同类型的模型"><span class="toc-number">2.</span> <span class="toc-text">拟合不同类型的模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调整其它变量"><span class="toc-number">3.</span> <span class="toc-text">调整其它变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#控制图片的大小和形状"><span class="toc-number">4.</span> <span class="toc-text">控制图片的大小和形状</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在其它情境下绘制回归"><span class="toc-number">5.</span> <span class="toc-text">在其它情境下绘制回归</span></a></li></ol></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://s1.ax1x.com/2022/04/02/qo9QeK.png)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">Haizhen's Blog</a></span><span class="pull-right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/collection/"><i class="fa-fw fas fa-paw"></i><span> 随手记</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comments"></i><span> 留言板</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">seaborn回归模块</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2022-05-03 11:14:29"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2022-05-03</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2022-05-05 19:18:35"><i class="fas fa-history fa-fw"></i> 更新于 2022-05-05</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fas fa-inbox fa-fw post-meta__icon"></i><a class="post-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta__icon"></i><span>字数总计:</span><span class="word-count">2.2k</span><span class="post-meta__separator">|</span><i class="far fa-clock fa-fw post-meta__icon"></i><span>阅读时长: 7 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"><span class="post-meta__separator">|</span><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="far fa-comments fa-fw post-meta__icon"></i><span>评论数:</span><a href="/2022/05/03/sns-regression/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2022/05/03/sns-regression/" itemprop="commentCount"></span></a></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p><a href="http://seaborn.pydata.org/tutorial/regression.html" target="_blank" rel="noopener">seaborn regression</a></p>
+<p>很多数据集包含多个数字变量，分析的目标通常是把这些变量关联起来。之前介绍了通过展示两个变量的联合分布来实现这一目标的函数。尽管如此，使用统计模型来估计两组杂乱的观测之间的简单关系仍然很有帮助。本章讨论的函数通过线性回归的常用框架完成上述任务</p>
+<p>遵循Turkey的理念，seaborn的回归图主要想增加一种视觉指导，有助于在探索性数据分析的过程中突出数据的模式。这就是说，seaborn本身不是用于统计分析的。要想获得与拟合回归模型相关的数量测度需要使用<a href="https://www.statsmodels.org/stable/index.html" target="_blank" rel="noopener">statsmodels</a>。然而，seaborn的目标是通过快速简便的可视化对数据集进行探索，这与通过统计表对数据集进行探索一样重要</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">sns.set_theme(color_codes=<span class="literal">True</span>)</span><br><span class="line">tips = sns.load_dataset(<span class="string">'tips'</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="绘制线性回归模型的函数"><a href="#绘制线性回归模型的函数" class="headerlink" title="绘制线性回归模型的函数"></a>绘制线性回归模型的函数</h2><p>Seaborn中有两个主要的函数用来绘制回归获得的线性关系。<code>regplot()</code>和<code>lmplot()</code>这两个函数密切相关，有很多相同的核心功能。然而，理解这两个函数的不同也很重要，这样才能根据特定目的快速选择正确的工具</p>
+<p>使用最简单的调用命令，两个函数都会绘制两个变量<code>x</code>和<code>y</code>的散点图，拟合回归模型<code>y ~ x</code>，绘制回归线和95%置信区间：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.regplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, data=tips)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OPgxyV.jpg" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, data=tips)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OP2Co4.jpg" alt=""></p>
+<p>两个函数绘制的图像类似，但是图的形状不同。稍后会解释造成这一现象的原因。现在，需要记住的另一个主要区别是<code>regplot()</code>接受各种格式的<code>x</code>和<code>y</code>变量，包括简单的numpy数组，pandas的<code>Series</code>对象，或者传递给<code>data</code>参数的数据框中的变量名。相反，<code>lmplot()</code>中<code>data</code>是必须参数，<code>x</code>和<code>y</code>参数只能是字符串。这种数据格式称为长数据或者干净数据。除了输入格式更加灵活，<code>regplot()</code>拥有一部分<code>lmplot()</code>的功能，因此将使用后者进行举例说明</p>
+<p>如果一个变量的值是离散的，也可以进行线性回归，只是这种数据集画出的简单散点图不太好看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'size'</span>, y=<span class="string">'tip'</span>, data=tips)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OP2kWR.jpg" alt=""></p>
+<p>一种办法是向离散值添加随机扰动，使点的分布更加清楚。注意，扰动只针对散点图，并不影响线性回归：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'size'</span>, y=<span class="string">'tip'</span>, data=tips, x_jitter=<span class="number">0.05</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OP2eOK.jpg" alt=""></p>
+<p>另一种方法是整合每一个离散值对应的观测，绘制其中心趋势的估计和置信区间：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'size'</span>, y=<span class="string">'tip'</span>, data=tips, x_estimator=np.mean)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OP2Glt.jpg" alt=""></p>
+<h2 id="拟合不同类型的模型"><a href="#拟合不同类型的模型" class="headerlink" title="拟合不同类型的模型"></a>拟合不同类型的模型</h2><p>上面使用的简单线性回归模型很容易拟合，然而并不适用于所有数据集。<a href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet" target="_blank" rel="noopener">Anscombe’s quartet</a>数据集提供了一些案例，这些案例中简单线性回归的结果完全相同，但数据之间的关系存在肉眼可见的不同。例如，在第一个例子中，线性回归是一个不错的模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">anscombe = sns.load_dataset(<span class="string">'anscombe'</span>)</span><br><span class="line">sns.lmplot(x=<span class="string">'x'</span>, y=<span class="string">'y'</span>, data=anscombe.query(<span class="string">"dataset == 'I'"</span>), ci=<span class="literal">None</span>, scatter_kws=&#123;<span class="string">'s'</span>: <span class="number">80</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OP2htJ.jpg" alt=""></p>
+<p>线性关系在第二个数据集中也是一样的，但是明显看出这不是一个好的模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'x'</span>, y=<span class="string">'y'</span>, data=anscombe.query(<span class="string">"dataset == 'II'"</span>), ci=<span class="literal">None</span>, scatter_kws=&#123;<span class="string">'s'</span>: <span class="number">80</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OP2T6x.jpg" alt=""></p>
+<p>在展示这类高阶关系时，<code>lmplot()</code>和<code>relplot()</code>可以拟合多项式回归模型来探索数据集中简单的非线性趋势：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'x'</span>, y=<span class="string">'y'</span>, data=anscombe.query(<span class="string">"dataset == 'II'"</span>), order=<span class="number">2</span>, ci=<span class="literal">None</span>, scatter_kws=&#123;<span class="string">'s'</span>: <span class="number">80</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OP2bnK.jpg" alt=""></p>
+<p>另一个问题是由偏离数据主要趋势的异常值造成的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'x'</span>, y=<span class="string">'y'</span>, data=anscombe.query(<span class="string">"dataset == III"</span>), ci=<span class="literal">None</span>, scatter_kws=&#123;<span class="string">'s'</span>: <span class="number">80</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OP2XAe.jpg" alt=""></p>
+<p>当出现异常值时，鲁棒回归 (robust regression)很有用，它使用一个不同的损失函数来降低大残差的权重：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'x'</span>, y=<span class="string">'y'</span>, data=anscombe.query(<span class="string">"dataset == 'III'"</span>), robust=<span class="literal">True</span>, ci=<span class="literal">None</span>, scatter_kws=&#123;<span class="string">'s'</span>: <span class="number">80</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OPRpct.jpg" alt=""></p>
+<p>如果<code>y</code>变量是二元的，简单线性回归也不会报错，但产生的预测没有意义：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tips[<span class="string">'big_tip'</span>] = (tips.tip / tips.total_bill) &gt; <span class="number">0.15</span></span><br><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'big_tip'</span>, data=tips, y_jitter=<span class="number">0.03</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OPRAAg.jpg" alt=""></p>
+<p>这种情况的解决方案是拟合逻辑回归模型，回归线展示的估计是针对每个<code>x</code>值，<code>y = 1</code>的概率：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'big_tip'</span>, data=tips, logistic=<span class="literal">True</span>, y_jitter=<span class="number">0.03</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OPRQBT.jpg" alt=""></p>
+<p>注意，逻辑回归通常比简单线性回归需要更多算力，由于置信区间是使用自举法计算的，可以设置<code>ci=None</code>取消置信区间的计算来加速迭代</p>
+<p>一种完全不同的方法是使用<a href="https://en.wikipedia.org/wiki/Local_regression" target="_blank" rel="noopener">局部加权回归散点平滑 (lowess smoother)</a>拟合非参回归。这种方法的假设最少，但是计算量大，因此目前没有设置置信区间的计算：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, data=tips, lowess=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OPRt3R.jpg" alt=""></p>
+<p><code>residplot()</code>函数可用于检查简单回归模型是否适用于该数据集。这个函数拟合简单线性模型，然后绘制每个观测的残差。理想情况下，这些值应该随机分布在<code>y = 0</code>附近：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.residplot(x=<span class="string">'x'</span>, y=<span class="string">'y'</span>, data=anscombe.query(<span class="string">"dataset == 'I'"</span>), scatter_kws=&#123;<span class="string">'s'</span>: <span class="number">80</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OPRwDK.jpg" alt=""></p>
+<p>如果残差的分布存在某种结构，说明简单线性回归不适用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'x'</span>, y=<span class="string">'y'</span>, data=anscombe.query(<span class="string">"dataset == 'II'"</span>), scatter_kws=&#123;<span class="string">'s'</span>: <span class="number">80</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OPR0HO.jpg" alt=""></p>
+<h2 id="调整其它变量"><a href="#调整其它变量" class="headerlink" title="调整其它变量"></a>调整其它变量</h2><p>上面那些图片展示了探索两个变量之间关系的多种方法。然而，更有意义的问题通常是“这两个变量之间的关系如何随第三个变量的取值发生变化”。这就是<code>regplot()</code>和<code>lmplot()</code>的不同之处了。虽然<code>regplot()</code>也能展示一个相互关系，<code>lmplot()</code>结合了<code>regplot()</code>和<code>FacetGrid</code>，便于通过分面展示线性回归，从而能够探索至多三个额外类别型变量的交互作用</p>
+<p>拆分一个相互关系最好的方法是将变量的两个取值绘制在同一个轴上，用不同颜色加以区分：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, hue=<span class="string">'smoker'</span>, data=tips)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/02/OPRs4H.jpg" alt=""></p>
+<p>使用不同的散点图记号在黑白图像中也能对类别加以区分。也可以同时使用不同颜色：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, hue=<span class="string">'smoker'</span>, data=tips, markers=[<span class="string">'o'</span>, <span class="string">'x'</span>], palette=<span class="string">'Set1'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/03/OFjGwD.jpg" alt=""></p>
+<p>要想再增加一个变量，可以绘制多个“分面” (facets)，变量的每个取值都会单独绘制在格子的行或者列中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, hue=<span class="string">'smoker'</span>, col=<span class="string">'time'</span>, data=tips)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/03/OFj06P.jpg" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, hue=<span class="string">'smoker'</span>, col=<span class="string">'time'</span>, row=<span class="string">'sex'</span>, data=tips)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/03/OFjckQ.jpg" alt=""></p>
+<h2 id="控制图片的大小和形状"><a href="#控制图片的大小和形状" class="headerlink" title="控制图片的大小和形状"></a>控制图片的大小和形状</h2><p>前面我们注意到，<code>regplot()</code>和<code>lmplot()</code>绘制的图像看起来一样，但形状大小不同。这是因为<code>regplot()</code>是轴水平函数，在特定的轴上进行绘制。这意味着你可以自行制作带有多个面板的组图，精确控制回归图的位置。如果没有明确提供轴对象，<code>regplot()</code>会在当前活跃的轴上进行绘制，这就是为什么默认设置画出的图片与大多数其它matplotlib函数绘制的图片形状大小相同。要想改变图的大小，需要先创建一个图对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f, ax = plt.subplots(figsize=(<span class="number">5</span>, <span class="number">6</span>))</span><br><span class="line">sns.regplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, data=tip, ax=ax)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/03/OFjgYj.jpg" alt=""></p>
+<p>相反，<code>lmplot()</code>图的形状大小是用<code>height</code>和<code>aspect</code>参数通过<code>FacetGrid</code>界面进行控制的，改变的是每个子图的大小，而不是整个图的大小：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, col=<span class="string">'day'</span>, data=tips, col_wrap=<span class="number">2</span>, height=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/03/OFjh60.jpg" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.lmplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, col=<span class="string">'day'</span>, data=tips, aspect=<span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/03/OFjHk4.jpg" alt=""></p>
+<h2 id="在其它情境下绘制回归"><a href="#在其它情境下绘制回归" class="headerlink" title="在其它情境下绘制回归"></a>在其它情境下绘制回归</h2><p>一些其它seaborn函数在更大更复杂的图中使用<code>regplot()</code>。首先是在<a href="http://seaborn.pydata.org/tutorial/distributions.html" target="_blank" rel="noopener">分布型教程</a>中介绍过的<code>jointplot()</code>。除了之前讨论过的绘图风格，<code>jointplot()</code>可以通过<code>kind=&#39;reg&#39;</code>参数在联合分布轴上展示线性回归拟合：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.jointplot(x=<span class="string">'total_bill'</span>, y=<span class="string">'tip'</span>, data=tips, kind=<span class="string">'reg'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/03/OFjX11.jpg" alt=""></p>
+<p>在<code>pairplot()</code>函数中设置<code>kind=&#39;reg&#39;</code>会将<code>regplot()</code>和<code>PairGrid</code>结合起来，展示数据集中变量之间的线性关系。要注意这种方法与<code>lmplot()</code>的不同。在下图中，两个子图展示的不是两个变量在第三个变量取不同值时的关系，而是数据集中两对不同的变量之间的关系：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.pairplot(tips, x_vars=[<span class="string">'total_bill'</span>, <span class="string">'size'</span>], y_vars=[<span class="string">'tip'</span>], height=<span class="number">5</span>, aspect=<span class="number">0.8</span>, kind=<span class="string">'reg'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/03/OFjvX6.jpg" alt=""></p>
+<p>与<code>lmplot()</code>类似，可以使用<code>hue</code>参数向<code>pairplot()</code>添加额外的类别型变量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.pairplot(tips, x_vars=[<span class="string">'total_bill'</span>, <span class="string">'size'</span>], y_vars=[<span class="string">'tip'</span>], hue=<span class="string">'smoker'</span>, height=<span class="number">5</span>, aspect=<span class="number">0.8</span>, kind=<span class="string">'reg'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src= "/img/loading.gif" data-src="https://s1.ax1x.com/2022/05/03/OFvPtH.jpg" alt=""></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:zhuhaizhen1024@163.com">Zhu Haizhen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://zhuhaizhen.github.io/2022/05/03/sns-regression/">https://zhuhaizhen.github.io/2022/05/03/sns-regression/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://zhuhaizhen.github.io" target="_blank">Haizhen's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python/">python</a><a class="post-meta__tags" href="/tags/seaborn/">seaborn</a></div><div class="post_share"><div class="social-share" data-image="https://s1.ax1x.com/2022/04/02/qo9QeK.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><button class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/image/wechat.jpg" alt="微信" onclick="window.open('/image/wechat.jpg')"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/image/alipay.jpg" alt="支付宝" onclick="window.open('/image/alipay.jpg')"/><div class="post-qr-code__desc">支付宝</div></li></ul></div></button></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/05/03/sns-facet/"><img class="prev-cover" data-src="https://s1.ax1x.com/2022/04/02/qo9NQI.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">seaborn分面技巧</div></div></a></div><div class="next-post pull-right"><a href="/2022/05/02/sns-categorical/"><img class="next-cover" data-src="https://s1.ax1x.com/2022/04/02/qo9QeK.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">seaborn类别型模块</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2022/05/04/sns-aesthetics/" title="seaborn图片美化"><img class="relatedPosts_cover" data-src="https://s1.ax1x.com/2022/04/02/qo98Fe.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-04</div><div class="relatedPosts_title">seaborn图片美化</div></div></a></div><div class="relatedPosts_item"><a href="/2022/05/02/sns-categorical/" title="seaborn类别型模块"><img class="relatedPosts_cover" data-src="https://s1.ax1x.com/2022/04/02/qo9QeK.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-02</div><div class="relatedPosts_title">seaborn类别型模块</div></div></a></div><div class="relatedPosts_item"><a href="/2022/05/04/sns-color/" title="seaborn配色方案"><img class="relatedPosts_cover" data-src="https://s1.ax1x.com/2022/04/02/qo9QeK.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-04</div><div class="relatedPosts_title">seaborn配色方案</div></div></a></div></div></div><hr><div id="post-comment"><div class="comment_headling"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var requestSetting = function (from,set) {
+  var from = from
+  var setting = set.split(',').filter(function(item){
+  return from.indexOf(item) > -1
+  });
+  setting = setting.length == 0 ? from :setting;
+  return setting
+}
+
+var guestInfo = requestSetting(['nick','mail','link'],'昵称,邮箱,网址')
+var requiredFields = requestSetting(['nick','mail'],'昵称,邮箱')
+
+window.valine = new Valine({
+  el:'#vcomment',
+  appId: 'yDcQjFWTIoApJ6qYc7DCVIjO-gzGzoHsz',
+  appKey: 'y66ni3n3AtYNrLgaqdJGzAPo',
+  placeholder: '请留下你的昵称和邮箱，方便接收回复',
+  avatar: 'monsterid',
+  meta: guestInfo,
+  pageSize: '10',
+  lang: 'zh-CN',
+  recordIP: false,
+  serverURLs: '',
+  emojiCDN: '',
+  emojiMaps: "",
+  enableQQ: false,
+  requiredFields: requiredFields
+});</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Zhu Haizhen</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">君子不器</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fas fa-comments"></i></a><button class="close" id="mobile-toc-button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="algolia-search"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script src="/js/third-party/click_heart.js"></script><script src="/js/search/algolia.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
